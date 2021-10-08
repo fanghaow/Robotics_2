@@ -24,11 +24,11 @@ classdef Interface
         end
         function controlWheel(obj,v1,v2,v3,v4)
             % TODO convert from floating to uint8
-            d = [v1,v2,v3,v4]*60/(2*math.pi)/2.5;
+            d = [v1,v2,v3,v4]*60/(2*pi)/2.5;
             d(d>127) = 127;
             d(d<-127) = -127;
             data = int8(d);
-            data
+            % data;
             write(obj.socket,data,"int8","127.0.0.1",obj.send_port);
         end
         function delete(obj)
