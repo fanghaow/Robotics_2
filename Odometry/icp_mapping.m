@@ -20,8 +20,7 @@ for i = 1:1:9
     
     % merge
     laser_map = pcmerge(laser_map, curr_ply, 0.01);
-    pcshow(laser_map, 'MarkerSize', 20);
-    pause;
+
 end
 
 figure;

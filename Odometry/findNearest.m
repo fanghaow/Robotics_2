@@ -18,14 +18,18 @@ n1 = size(pc1,1);
 n2 = size(pc2,1);
 dist = zeros(n1,n2);
 
-% compute dist between each pair of point [TODO Broadcast]
-for i = 1:n1
-    curr_pc1 = pc1(i,1:2);
-    for j = 1:n2
-        curr_pc2 = pc2(j,1:2);
-        dist(i,j) = hypot(curr_pc1(1) - curr_pc2(1), curr_pc1(2) - curr_pc2(2));
-    end
-end
+% compute dist between each pair of point
+pc1_x = pc1(:,1);
+pc1_y = pc1(:,2);
+pc2_x = pc2(:,1);
+pc2_y = pc2(:,2);
+dist_x = pc1_x - pc2_x';
+dist_y = pc1_y - pc2_y';
+dist = hypot(dist_x, dist_y);
+% for i = 1:n1
+%     curr_pc1 = pc1(i,1:2);
+%     dist(i,:) = hypot(curr_pc1(1) - pc2(:,1), curr_pc1(2) - pc2(:,2));
+% end
 
 [min_dist, pc1_indices] = min(dist); % (1,n2)
 

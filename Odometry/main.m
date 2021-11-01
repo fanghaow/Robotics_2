@@ -10,14 +10,14 @@ my_robot_tf{1} = tform_init;
 for i = 1:1:9
     fprintf("-------Start------\n");
     fprintf("Processing No.%d PC\n",i);
+    clear findNearest; % clear static "dist_th"
     
     % read
     str = [num2str(i) , '.ply'];
     curr_ply = pcread(str);
     
-    % icp TODO
+    % icp
     [tform_init, ~] = pcregistericp(curr_ply, laser_map, 'Metric','pointToPoint', 'InitialTransform', tform_init, 'MaxIterations', 100, 'Tolerance', [0.01, 0.001]);
-    clear findNearest;
     [my_tform_init, curr_ply] = my_icp(curr_ply, laser_map, 100, 0, 0.01);
     robot_tf{i+1} = tform_init;
     my_robot_tf{i+1} = my_tform_init;
@@ -35,8 +35,9 @@ end
 figure;
 pcshow(laser_map, 'MarkerSize', 20);
 
+% Output errors between "pcregistericp" and "my_icp"
 for i = 2:10
-    fprintf("No.%d difference: %f\n", i, mean(mean(abs(robot_tf{i}.T - my_robot_tf{i}))));
+    fprintf("No.%d difference: %f\n", i, mean(mean(abs(robot_tf{i}.T - my_robot_tf{i}.T))));
 end
 
 
